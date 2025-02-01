@@ -147,17 +147,17 @@ def schedule_basic_messages():
     scheduler.add_job(send_message, trigger, args=["+14385038053", message_morning])
 
     message_noon = basic_prompt("Noon")
-    trigger_time_noon = datetime(year=now.year, month=now.month, day=now.day, hour=2)
+    trigger_time_noon = datetime(year=now.year, month=now.month, day=now.day, hour=14)
     trigger = DateTrigger(run_date=trigger_time_noon)
     scheduler.add_job(send_message, trigger, args=["+14385038053", message_noon])
 
     message_evening = basic_prompt("Evening")
-    trigger_time_evening = datetime(year=now.year, month=now.month, day=now.day, hour=6)
+    trigger_time_evening = datetime(year=now.year, month=now.month, day=now.day, hour=18, minute=41)
     trigger = DateTrigger(run_date=trigger_time_evening)
     scheduler.add_job(send_message, trigger, args=["+14385038053", message_evening])
 
     message_night = basic_prompt("Night")
-    trigger_time_night = datetime(year=now.year, month=now.month, day=now.day, hour=10)
+    trigger_time_night = datetime(year=now.year, month=now.month, day=now.day, hour=22)
     trigger = DateTrigger(run_date=trigger_time_night)
     scheduler.add_job(send_message, trigger, args=["+14385038053", message_night])
 
@@ -166,9 +166,11 @@ def schedule_messages(events):
     for event in events:
         message = event_prompt(event['summary'])
         task_time_str = event['end']['dateTime']
-        task_time = datetime.strptime(task_time_str, '%Y-%m-%d %H:%M:%S')
+        task_time = datetime.fromisoformat(task_time_str)
         trigger = DateTrigger(run_date=task_time)
         scheduler.add_job(send_message, trigger, args=["+14385038053", message])
 
 if __name__ == '__main__':
+    # Start the scheduler
+    scheduler.start()
     app.run(debug=True, host='localhost', port=5000, ssl_context=('server.crt', 'private.key'))

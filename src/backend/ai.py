@@ -5,8 +5,7 @@ def call_gemini(user_prompt):
     genai.configure(api_key="AIzaSyBP7tOcTH0azlGYcWMjKx2FRk7CjRPzDGA")
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(user_prompt)
-    print(response.text)
-    print("----")
+    return response.text
 
 def get_time_of_day():
     # Get the current time
@@ -24,11 +23,11 @@ def get_time_of_day():
         return "Night"
 
 def basic_prompt(time):
-    call_gemini(prompts[time])
+    return call_gemini(prompts[time])
 
 
 def event_prompt(event):
-    call_gemini(f"I had {event} today, pretend you are my friend and ask me questions about how it went")
+    return call_gemini(f"I had {event} today, pretend you are my friend and ask me questions about how it went")
 
 
 prompts = {
@@ -41,5 +40,5 @@ prompts = {
 
 
 
-basic_prompt("Night")
-event_prompt("Hackathon")
+# basic_prompt("Night")
+# event_prompt("Hackathon")
