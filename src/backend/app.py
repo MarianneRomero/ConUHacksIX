@@ -9,7 +9,12 @@ from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.date import DateTrigger
+from sending_texts import send_message
+from ai import event_prompt, basic_prompt
 
+scheduler = BackgroundScheduler()
 app = Flask(__name__)
 
 app.secret_key = os.urandom(24)
@@ -98,6 +103,7 @@ def get_calendar_events():
     ).execute()
     
     events = events_result.get('items', [])
+    schedule_messages(events)
     return jsonify(events)
 
 
@@ -129,6 +135,40 @@ def sms_reply():
     response = MessagingResponse()
     response.message(response_msg)
     return str(response)
+
+
+def schedule_basic_messages():
+    tz = pytz.timezone('UTC')  # Change to your timezone if needed
+    now = datetime.now(tz)
+
+    message_morning = basic_prompt("Morning")
+    trigger_time_morning = datetime(year=now.year, month=now.month, day=now.day, hour=10)
+    trigger = DateTrigger(run_date=trigger_time_morning)
+    scheduler.add_job(send_message, trigger, args=["+14385038053", message_morning])
+
+    message_noon = basic_prompt("Noon")
+    trigger_time_noon = datetime(year=now.year, month=now.month, day=now.day, hour=2)
+    trigger = DateTrigger(run_date=trigger_time_noon)
+    scheduler.add_job(send_message, trigger, args=["+14385038053", message_noon])
+
+    message_evening = basic_prompt("Evening")
+    trigger_time_evening = datetime(year=now.year, month=now.month, day=now.day, hour=6)
+    trigger = DateTrigger(run_date=trigger_time_evening)
+    scheduler.add_job(send_message, trigger, args=["+14385038053", message_evening])
+
+    message_night = basic_prompt("Night")
+    trigger_time_night = datetime(year=now.year, month=now.month, day=now.day, hour=10)
+    trigger = DateTrigger(run_date=trigger_time_night)
+    scheduler.add_job(send_message, trigger, args=["+14385038053", message_night])
+
+def schedule_messages(events):
+    schedule_basic_messages()
+    for event in events:
+        message = event_prompt(event['summary'])
+        task_time_str = event['end']['dateTime']
+        task_time = datetime.strptime(task_time_str, '%Y-%m-%d %H:%M:%S')
+        trigger = DateTrigger(run_date=task_time)
+        scheduler.add_job(send_message, trigger, args=["+14385038053", message])
 
 if __name__ == '__main__':
     app.run(debug=True, host='localhost', port=5000, ssl_context=('server.crt', 'private.key'))
