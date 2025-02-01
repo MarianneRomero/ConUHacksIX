@@ -1,5 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Flask, request
+import pytz
 from twilio.twiml.messaging_response import MessagingResponse
 import os
 import json
@@ -79,10 +80,19 @@ def get_calendar_events():
     
     # Build the Calendar API service
     service = build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
-    
-    # Fetch events
+
+    # Define the time range for today
+    tz = pytz.timezone('UTC')  # Change to your timezone if needed
+    now = datetime.now(tz)
+    start_of_day = datetime(year=now.year, month=now.month, day=now.day, tzinfo=tz)
+    end_of_day = start_of_day + timedelta(days=1)
+    # Convert to ISO format
+    time_min = start_of_day.isoformat()
+    time_max = end_of_day.isoformat()
+
+    # Fetch today's events
     events_result = service.events().list(
-        calendarId='primary', timeMin='2025-02-01T00:00:00Z',
+        calendarId='primary', timeMin=time_min, timeMax=time_max,
         maxResults=10, singleEvents=True, orderBy='startTime',
         fields='items(summary,start,end,location,status)'
     ).execute()
