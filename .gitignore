@@ -169,3 +169,9 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+credentials_google_auth.json
+private.key
+server.crt
+server.csr
