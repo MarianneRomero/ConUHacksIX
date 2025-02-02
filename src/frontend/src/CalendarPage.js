@@ -25,7 +25,7 @@ const CalendarPage = () => {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', marginTop: '20px' }}>
+        <journal-container style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', marginTop: '20px' }}>
             {/* Main Entry */}
             <div>
                 {selectedDate && (
@@ -42,7 +42,7 @@ const CalendarPage = () => {
             </div>
 
             {/* Secondary Entry */}
-            <div>
+            <journal-entry>
                 <SecondaryEntry> 
                 {items.map(item => (
                 <div key={item.id} className="border rounded-xl p-4 shadow-md">
@@ -51,7 +51,7 @@ const CalendarPage = () => {
                 </div>
                 ))}
                 </SecondaryEntry>
-            </div>
+            </journal-entry>
             
             {/* Calendar + Secondary Entry */}
             <div style={{ marginRight: '20px' }}>
@@ -61,7 +61,7 @@ const CalendarPage = () => {
                 />
                 <SecondaryEntry> </SecondaryEntry>
             </div>
-        </div>
+        </journal-container>
     );
 };
 

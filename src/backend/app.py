@@ -114,7 +114,9 @@ def get_calendar_events():
 @app.route('/getEvents', methods=['GET'])
 def getEventsWithDate():
     date = request.args.get('date')
+    formatted_date = datetime.strptime(date,'%Y-%m-%d')
     events = get_user_entries_for_date("marianne.romero30@gmail.com", date)
+    return jsonify(events)
 
 def credentials_to_dict(credentials):
     """Converts the credentials object to a dictionary to store in session."""
