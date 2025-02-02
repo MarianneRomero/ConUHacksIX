@@ -2,6 +2,47 @@ import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import SecondaryEntry from './SecondaryEntry'; // Import the new component
+import MoodTracker from './mood';
+
+
+const fake_data = [
+    {
+        name: "angry",
+        count: 1,
+        fill: "#8dd1e1" 
+      },
+    {
+      name: "sad",
+      count: 3,
+      fill: "#83a6ed"
+    },
+    {
+      name: "calm",
+      count: 6,
+      fill: "#82ca9d"
+    },
+    {
+      name: "anxious",
+      count: 4,
+      fill: "#a4de6c"
+    },
+    {
+        name: "happy",
+        count: 16,
+        fill: "#8884d8"
+    },
+  ];
+
+  const getColorForMood = (mood) => {
+    const colorMap = {
+      happy: '#8884d8',
+      sad: '#83a6ed',
+      angry: '#8dd1e1',
+      calm: '#82ca9d',
+      anxious: '#a4de6c',
+    };
+    return colorMap[mood.toLowerCase()] || '#000000'; // Default to black if mood not found
+  };
 
 
 const CalendarPage = () => {
@@ -27,6 +68,23 @@ const CalendarPage = () => {
             .then(data => setEventItems(data))
             .catch(error => console.error('Error fetching data:', error));
     }, [selectedDate]); 
+
+
+    useEffect(() => {
+        const formattedDate = selectedDate.toISOString().split('T')[0]; // Format date to YYYY-MM-DD if needed
+        fetch(`https://localhost:5000/getMoodEntries?date=${formattedDate}`)
+            .then(response => response.json())
+            .then((data) => {
+                // Transform the data to match the required format
+                const formattedData = data.map((item) => ({
+                  name: item.mood,
+                  count: item.count,
+                  fill: getColorForMood(item.mood), // Helper function to assign colors
+                }))})
+            .catch(error => console.error('Error fetching data:', error));
+    }, [selectedDate]); 
+
+
 
     const handleDateChange = (newDate) => {
         setDate(newDate);
@@ -69,6 +127,7 @@ const CalendarPage = () => {
                         value={date}
                         onChange={handleDateChange}
                     />
+                    <MoodTracker data={fake_data}/> 
                     <SecondaryEntry> </SecondaryEntry>
                 </div>
             </div>

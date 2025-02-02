@@ -63,11 +63,25 @@ def get_event_entries_for_date(user_email, date):
         entry['_id'] = str(entry['_id'])  
     return entries
 
-if __name__ == "__main__":
-    # Example usage
-    user_email = "glzvl97@gmail.com"  
-    prompt = "How was your day?"  
-    response = "Today was a tough day, but I learned a lot."
+def get_mood_entries_last_30days(user_email):
+    today = datetime.now()
+    thirty_days_ago = datetime(today.year, today.month, today.day - 30)
+    entries = list(entries_collection.find({"user_id": user_email, 
+                                            "date": {"$gte": thirty_days_ago.strftime('%Y-%m-%d')}, 
+                                            "type": "mood"
+                                            }).sort("date",-1))
+    for entry in entries:
+        entry['_id'] = str(entry['_id'])  
+    return entries
 
-    print(save_entry(user_email, prompt, response,))
-    print(get_user_entries(user_email))
+
+
+
+# if __name__ == "__main__":
+#     # Example usage
+#     user_email = "glzvl97@gmail.com"  
+#     prompt = "How was your day?"  
+#     response = "Today was a tough day, but I learned a lot."
+
+#     print(save_entry(user_email, prompt, response,))
+#     print(get_user_entries(user_email))

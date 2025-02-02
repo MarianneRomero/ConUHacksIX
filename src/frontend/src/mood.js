@@ -1,35 +1,8 @@
 import React from 'react';
 import { RadialBarChart, RadialBar, Legend, Tooltip } from 'recharts';
 
-const fake_data = [
-    {
-      name: "happy",
-      uv: 20,
-      fill: "#8884d8"
-    },
-    {
-      name: "sad",
-      uv: 3,
-      fill: "#83a6ed"
-    },
-    {
-      name: "angry",
-      uv: 1,
-      fill: "#8dd1e1"
-    },
-    {
-      name: "calm",
-      uv: 10,
-      fill: "#82ca9d"
-    },
-    {
-      name: "anxious",
-      uv: 10,
-      fill: "#a4de6c"
-    }
-  ];
 
-function MoodTracker() {
+function MoodTracker({data}) {  
     
     return (
         <div>
@@ -39,8 +12,8 @@ function MoodTracker() {
             <div>
                 <RadialBarChart
                     width={730}
-                    height={250}
-                    innerRadius="10%"
+                    height={350}
+                    innerRadius="30%"
                     outerRadius="80%"
                     data={data}
                     startAngle={180}
@@ -48,24 +21,39 @@ function MoodTracker() {
                 >
                     <RadialBar
                     minAngle={15}
-                    label={{ fill: '#666', position: 'insideStart' }}
+                    label={false}
                     background
                     clockWise={true}
-                    dataKey="uv"
+                    dataKey="count"
                     />
                     <Legend
-                    iconSize={10}
-                    width={120}
-                    height={140}
+                    iconSize={15}
+                    width={200}
+                    height={200}
                     layout="vertical"
-                    verticalAlign="middle"
+                    verticalAlign="left"
                     align="right"
+                    wrapperStyle={{
+                        top: '39.5%',
+                        transform: 'translateY(-50%)',}}/>
+                    <Tooltip
+                        content={({ payload }) => {
+                            if (!payload || payload.length === 0) return null;
+
+                            const {value} = payload[0];
+
+                            return (
+                            <div style={{ backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: '5px', padding: '5px' }}>
+                                <p>{`${((value / 30) * 100).toFixed(2)}%`}</p>
+                            </div>
+                            );
+                        }}
+                        contentStyle={{ backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: '5px' }}
                     />
-                    <Tooltip />
                 </RadialBarChart>
             </div>
         </div>
     );
   };
   
-  export default MoodChart;
+  export default MoodTracker;

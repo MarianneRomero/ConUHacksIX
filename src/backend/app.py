@@ -12,9 +12,9 @@ from google.oauth2.credentials import Credentials
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.date import DateTrigger
 from sending_texts import send_message
-from ai import event_prompt, basic_prompt, response
+from ai import event_prompt, basic_prompt, response, mood_prompt, analyze_mood_data
 from flask_cors import CORS 
-from db import save_entry, get_normal_entries_for_date, get_event_entries_for_date
+from db import save_entry, get_normal_entries_for_date, get_event_entries_for_date, get_mood_entries_last_30days
 
 scheduler = BackgroundScheduler()
 app = Flask(__name__)
@@ -125,6 +125,14 @@ def getEventEntriesWithDate():
     events = get_event_entries_for_date("marianne.romero30@gmail.com", date)
     return jsonify(events)
 
+@app.route('/getMoodEntries', methods=['GET'])
+def getMoodEntriesWithDate():
+    moods = analyze_mood_data("marianne.romero30@gmail.com")
+    return jsonify(moods)
+
+
+
+
 def credentials_to_dict(credentials):
     """Converts the credentials object to a dictionary to store in session."""
     return {
@@ -182,6 +190,11 @@ def schedule_basic_messages():
     trigger_time_night = datetime(year=now.year, month=now.month, day=now.day, hour=22)
     trigger = DateTrigger(run_date=trigger_time_night)
     scheduler.add_job(send_SMS, trigger, args=[message_night, "normal"])
+
+    message_mood = mood_prompt()
+    trigger_time_mood = datetime(year=now.year, month=now.month, day=now.day, hour=21)
+    trigger = DateTrigger(run_date=trigger_time_mood)
+    scheduler.add_job(send_SMS, trigger, args=[message_mood, "mood"])
 
 def schedule_messages(events):
     schedule_basic_messages()
