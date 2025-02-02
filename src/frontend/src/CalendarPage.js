@@ -51,6 +51,7 @@ const CalendarPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [normalItems, setNormalItems] = useState([]);
     const [eventItems, setEventItems] = useState([]);
+    const [mood_data, setMoodData] = useState([]);
 
 
     useEffect(() => {
@@ -75,12 +76,13 @@ const CalendarPage = () => {
         fetch(`https://localhost:5000/getMoodEntries?date=${formattedDate}`)
             .then(response => response.json())
             .then((data) => {
-                // Transform the data to match the required format
                 const formattedData = data.map((item) => ({
-                  name: item.mood,
-                  count: item.count,
-                  fill: getColorForMood(item.mood), // Helper function to assign colors
-                }))})
+                    name: item.mood,
+                    count: item.count,
+                    fill: getColorForMood(item.mood),
+                }));
+                setMoodData(formattedData); // Update state
+            })
             .catch(error => console.error('Error fetching data:', error));
     }, [selectedDate]); 
 
@@ -127,7 +129,7 @@ const CalendarPage = () => {
                         value={date}
                         onChange={handleDateChange}
                     />
-                    <MoodTracker data={fake_data}/> 
+                    <MoodTracker data={mood_data}/> 
                     <SecondaryEntry> </SecondaryEntry>
                 </div>
             </div>
