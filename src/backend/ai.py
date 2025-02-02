@@ -2,10 +2,10 @@ import google.generativeai as genai
 from datetime import datetime
 
 prompts = {
-    "Morning": "I just woke up, pretend you are my friend and ask me a short question about how my morning is going, what are my goals, etc",
-    "Noon": "Just ate lunch, pretend you are my friend and ask me a short question about how my day is going so far, what I did, etc",
-    "Evening": "It's evening now, pretend you are my friend and ask me a short question about how my day is going so far, my mood, etc",
-    "Night": "Its nighttime, pretend you are my friend and ask me a short question about how my day went, reflections, random deep questions, etc"
+    "Morning": "I just woke up, pretend you are my friend and ask me a short question about how my morning is going, what are my goals, etc. Dont add emojis",
+    "Noon": "I just ate lunch, pretend you are my friend and ask me a short question about how my day is going so far, what I did, etc. Dont add emojis",
+    "Evening": "It's evening now, pretend you are my friend and ask me a short question about how my day is going so far, my mood, etc. Dont add emojis",
+    "Night": "Its nighttime, pretend you are my friend and ask me a short question about how my day went, reflections, random thoughtful questions, etc. Dont add emojis"
 }
 
 
@@ -25,4 +25,4 @@ def basic_prompt(time):
 
 
 def event_prompt(event):
-    return call_gemini(f"I had {event} today, pretend you are my friend and ask me questions about how it went")
+    return call_gemini(f"I had {event} today, pretend you are my friend and ask me questions about how it went. Dont add emojis")
