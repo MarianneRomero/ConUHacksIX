@@ -14,7 +14,7 @@ from apscheduler.triggers.date import DateTrigger
 from sending_texts import send_message
 from ai import event_prompt, basic_prompt
 from flask_cors import CORS 
-from db import save_entry
+from db import save_entry, get_user_entries_for_date
 
 scheduler = BackgroundScheduler()
 app = Flask(__name__)
@@ -41,8 +41,8 @@ def index():
 @app.route('/authorize')
 def authorize():
     # If credentials already exist, no need to log in again
-    if 'credentials' in session:
-        return redirect(url_for('get_calendar_events'))
+    # if 'credentials' in session:
+    #     return redirect(url_for('get_calendar_events'))
     
     flow = Flow.from_client_secrets_file(
         CLIENT_SECRETS_FILE, SCOPES)
@@ -92,7 +92,7 @@ def get_calendar_events():
     service = build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
     # Define the time range for today
-    tz = pytz.timezone('UTC')  # Change to your timezone if needed
+    tz = pytz.timezone('UTC') 
     now = datetime.now(tz)
     start_of_day = datetime(year=now.year, month=now.month, day=now.day, tzinfo=tz)
     end_of_day = start_of_day + timedelta(days=1)
@@ -111,7 +111,10 @@ def get_calendar_events():
     schedule_messages(events)
     return jsonify(events)
 
-
+@app.route('/getEvents', methods=['GET'])
+def getEventsWithDate():
+    date = request.args.get('date')
+    events = get_user_entries_for_date("marianne.romero30@gmail.com", date)
 
 def credentials_to_dict(credentials):
     """Converts the credentials object to a dictionary to store in session."""

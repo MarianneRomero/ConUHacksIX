@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import SecondaryEntry from './SecondaryEntry'; // Import the new component
@@ -8,6 +8,16 @@ const CalendarPage = () => {
     // State to store the currently selected date
     const [date, setDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [items, setItems] = useState([]);
+
+
+    useEffect(() => {
+        const formattedDate = selectedDate.toISOString().split('T')[0]; // Format date to YYYY-MM-DD if needed
+        fetch(`https://localhost:5000/getEvents?date=${formattedDate}`)
+            .then(response => response.json())
+            .then(data => setItems(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }, [selectedDate]);  // Dependency array: Refetch whenever selectedDate changes
 
     const handleDateChange = (newDate) => {
         setDate(newDate);
@@ -33,7 +43,14 @@ const CalendarPage = () => {
 
             {/* Secondary Entry */}
             <div>
-                <SecondaryEntry> </SecondaryEntry>
+                <SecondaryEntry> 
+                {items.map(item => (
+                <div key={item.id} className="border rounded-xl p-4 shadow-md">
+                    <h2 className="text-xl font-semibold">{item.prompt}</h2>
+                    <p className="text-gray-600">{item.response}</p>
+                </div>
+                ))}
+                </SecondaryEntry>
             </div>
             
             {/* Calendar + Secondary Entry */}
