@@ -13,9 +13,11 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.date import DateTrigger
 from sending_texts import send_message
 from ai import event_prompt, basic_prompt
+from flask_cors import CORS  # Import CORS
 
 scheduler = BackgroundScheduler()
 app = Flask(__name__)
+CORS(app)
 
 app.secret_key = os.urandom(24)
 CLIENT_SECRETS_FILE = "credentials_google_auth.json"
@@ -62,7 +64,7 @@ def oauth2callback():
     
     credentials = flow.credentials
     session['credentials'] = credentials_to_dict(credentials)  # Save as dictionary
-    return redirect(url_for('get_calendar_events'))
+    return redirect('http://localhost:3000/')
 
 
 @app.route('/get_calendar_events', methods=['GET'])
