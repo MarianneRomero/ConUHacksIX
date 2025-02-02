@@ -12,7 +12,7 @@ from google.oauth2.credentials import Credentials
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.date import DateTrigger
 from sending_texts import send_message
-from ai import event_prompt, basic_prompt
+from ai import event_prompt, basic_prompt, response
 from flask_cors import CORS 
 from db import save_entry
 
@@ -137,7 +137,7 @@ def sms_reply():
     save_entry("marianne.romero30@gmail.com", LAST_MESSAGE_SENT, incoming_message, LAST_MESSAGE_SENT_TYPE)
 
     # add some processing to message
-    response_msg = "Thanks for sharing! This has been added to your journal entry!"
+    response_msg = response()
 
     response = MessagingResponse()
     response.message(response_msg)
