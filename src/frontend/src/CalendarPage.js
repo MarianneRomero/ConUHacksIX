@@ -8,16 +8,25 @@ const CalendarPage = () => {
     // State to store the currently selected date
     const [date, setDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [items, setItems] = useState([]);
+    const [normalItems, setNormalItems] = useState([]);
+    const [eventItems, setEventItems] = useState([]);
 
 
     useEffect(() => {
         const formattedDate = selectedDate.toISOString().split('T')[0]; // Format date to YYYY-MM-DD if needed
-        fetch(`https://localhost:5000/getEvents?date=${formattedDate}`)
+        fetch(`https://localhost:5000/getNormalEntries?date=${formattedDate}`)
             .then(response => response.json())
-            .then(data => setItems(data))
+            .then(data => setNormalItems(data))
             .catch(error => console.error('Error fetching data:', error));
     }, [selectedDate]);  // Dependency array: Refetch whenever selectedDate changes
+
+    useEffect(() => {
+        const formattedDate = selectedDate.toISOString().split('T')[0]; // Format date to YYYY-MM-DD if needed
+        fetch(`https://localhost:5000/getEventEntries?date=${formattedDate}`)
+            .then(response => response.json())
+            .then(data => setEventItems(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }, [selectedDate]); 
 
     const handleDateChange = (newDate) => {
         setDate(newDate);
@@ -26,40 +35,42 @@ const CalendarPage = () => {
 
     return (
         <journal-container style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', marginTop: '20px' }}>
-            {/* Main Entry */}
-            <div>
-                {selectedDate && (
-                    <div>
-                        <h2>{selectedDate.toLocaleDateString()}</h2>
-                        <p>Here you can add details for the selected date.</p>
-                        {/* Example of events */}
-                        <ul>
-                            <li>You have no entries for today. </li>
-                            {/* Add more dynamic events here */}
-                        </ul>
-                    </div>
-                )}
-            </div>
-
-            {/* Secondary Entry */}
-            <journal-entry>
-                <SecondaryEntry> 
-                {items.map(item => (
-                <div key={item.id} className="border rounded-xl p-4 shadow-md">
-                    <h2 className="text-xl font-semibold">{item.prompt}</h2>
-                    <p className="text-gray-600">{item.response}</p>
+            <div class="container">
+                {/* Main Entry */}
+                <div>
+                    {selectedDate && (
+                        <div>
+                            <h1>{selectedDate.toLocaleDateString()}</h1>
+                            <journal-entry>
+                                {normalItems.map(item => (
+                                    <div>
+                                        <h3>{item.prompt}</h3>
+                                        <text>{item.response}</text>
+                                    </div>
+                                ))}
+                            </journal-entry>
+                        </div>
+                    )}
                 </div>
-                ))}
-                </SecondaryEntry>
-            </journal-entry>
-            
-            {/* Calendar + Secondary Entry */}
-            <div style={{ marginRight: '20px' }}>
-                <Calendar
-                    value={date}
-                    onChange={handleDateChange}
-                />
-                <SecondaryEntry> </SecondaryEntry>
+
+                {/* Secondary Entry */}
+                <div>
+                    <journal-entry>
+                        {eventItems.map(item => (
+                            <SecondaryEntry key={item.id} prompt={item.prompt} response={item.response}></SecondaryEntry> 
+                        ))}
+                    </journal-entry>
+                </div>
+                
+                
+                {/* Calendar + Secondary Entry */}
+                <div style={{ marginRight: '20px' }}>
+                    <Calendar
+                        value={date}
+                        onChange={handleDateChange}
+                    />
+                    <SecondaryEntry> </SecondaryEntry>
+                </div>
             </div>
         </journal-container>
     );

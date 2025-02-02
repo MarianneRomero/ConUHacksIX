@@ -14,7 +14,7 @@ from apscheduler.triggers.date import DateTrigger
 from sending_texts import send_message
 from ai import event_prompt, basic_prompt, response
 from flask_cors import CORS 
-from db import save_entry, get_user_entries_for_date
+from db import save_entry, get_normal_entries_for_date, get_event_entries_for_date
 
 scheduler = BackgroundScheduler()
 app = Flask(__name__)
@@ -111,11 +111,18 @@ def get_calendar_events():
     schedule_messages(events)
     return jsonify(events)
 
-@app.route('/getEvents', methods=['GET'])
-def getEventsWithDate():
+@app.route('/getNormalEntries', methods=['GET'])
+def getNormalEntriesWithDate():
     date = request.args.get('date')
     formatted_date = datetime.strptime(date,'%Y-%m-%d')
-    events = get_user_entries_for_date("marianne.romero30@gmail.com", date)
+    events = get_normal_entries_for_date("marianne.romero30@gmail.com", date)
+    return jsonify(events)
+
+@app.route('/getEventEntries', methods=['GET'])
+def getEventEntriesWithDate():
+    date = request.args.get('date')
+    formatted_date = datetime.strptime(date,'%Y-%m-%d')
+    events = get_event_entries_for_date("marianne.romero30@gmail.com", date)
     return jsonify(events)
 
 def credentials_to_dict(credentials):

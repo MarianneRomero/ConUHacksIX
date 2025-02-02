@@ -60,11 +60,19 @@ body {
 .journal-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 30px;
+  padding: 20px;
   background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
   border-radius: 25px; /* Rounded corners */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Soft shadow */
   backdrop-filter: blur(10px); /* Frosted glass effect */
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 40% 30% 30%;
+  grid-auto-rows: 1.6em;
+  grid-gap: 10px;
+  justify-items: center;
 }
 
 /* Header Styling */
@@ -244,7 +252,7 @@ footer p {
   background-color: transparent;
   border: none;
   color: #5a7d6a; /* Sage green for buttons */
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: color 0.3s ease;
   padding: 10px;
