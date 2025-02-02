@@ -1,12 +1,7 @@
-import os
-from openai import OpenAI
 from dotenv import load_dotenv
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from bson.objectid import ObjectId
-import google.generativeai as genai
 from datetime import datetime
-from ai import call_gemini, get_time_of_day, basic_prompt, event_prompt 
 
 load_dotenv()
 
@@ -38,13 +33,6 @@ def save_entry(user_email, prompt, response, type="normal"):
     entries_collection.insert_one(entry_data)
     return "Entry saved successfully!"
 
-if __name__ == "__main__":
-    # Example usage
-    user_email = "glzvl97@gmail.com"  
-    prompt = "How was your day?"  
-    response = "Today was a tough day, but I learned a lot."
-
-    print(save_entry(user_email, prompt, response,))
 
 #Add sorting to user time
 # Filter by user_email, date
@@ -52,6 +40,15 @@ def get_user_entries(user_email):
     entries = list(entries_collection.find({"user_id": user_email}).sort("date",-1))
     return entries
 
+def get_user_entries_for_date(user_email, date):
+    entries = list(entries_collection.find({"user_id": user_email, "date": date}).sort("date",-1))
+    return entries
+
 if __name__ == "__main__":
-    user_email = "glzvl97@gmail.com"
+    # Example usage
+    user_email = "glzvl97@gmail.com"  
+    prompt = "How was your day?"  
+    response = "Today was a tough day, but I learned a lot."
+
+    print(save_entry(user_email, prompt, response,))
     print(get_user_entries(user_email))
