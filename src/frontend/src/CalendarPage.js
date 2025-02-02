@@ -109,7 +109,7 @@ const CalendarPage = () => {
                 {/* Main Entry */}
                 <div style={{ margin: '30px', width: '100%'}}>
                     <div class="main-entry">
-                        <h1 style={{'margin-bottom': '10px'}}>{selectedDate.toLocaleDateString('en-US', options)}</h1>
+                        <h1 style={{'margin-bottom': '10px', 'font-size':'3rem'}}>{selectedDate.toLocaleDateString('en-US', options)}</h1>
                         <div class="journal-entry" style={{ width: '100%', 'overflow-y': 'scroll', 'scrollbar-width': 'none' }}>
                             {normalItems.length > 0 ? (
                                 normalItems.map(item => (
@@ -146,7 +146,7 @@ const CalendarPage = () => {
                         value={date}
                         onChange={handleDateChange}
                     />
-                    <h1 style={{"padding-top":'30px', "padding-bottom":'0px'}}>Mood Tracker</h1>
+                    <h1 style={{"padding-top":'30px', "padding-bottom":'0px', 'font-size': '2.5rem'}}>Mood Tracker</h1>
                     <MoodTracker data={mood_data}/>
                 </div>
             </div>
