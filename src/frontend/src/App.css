@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&family=Pacifico&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap');
 .App {
   text-align: center;
 }
@@ -88,11 +88,14 @@ header {
   margin-bottom: 30px;
 }
 
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+
 header h1 {
   font-size: 3.5rem; /* Larger font size */
   color: #5a7d6a; /* Sage green for the title */
   font-weight: 400; /* Softer font weight */
-  font-family: 'Pacifico', cursive; /* Playful, rounded font */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Soft text shadow */
   margin-bottom: 10px;
 }
@@ -140,10 +143,11 @@ button {
   padding: 12px 24px;
   border-radius: 50px; /* Pill-shaped button */
   cursor: pointer;
-  font-size: 1.1rem; /* Larger font size */
+  font-size: 1.5rem; /* Larger font size */
   font-weight: 500; /* Medium font weight */
   transition: background-color 0.3s ease, transform 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  font-family: 'Playfair Display', serif;
 }
 
 button:hover {

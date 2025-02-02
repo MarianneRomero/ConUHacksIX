@@ -26,13 +26,13 @@ const LoginPage = () => {
   }}>
       
       <div style={{'padding-top': '100px'}}>
-        <h1 style={{'font-family': 'Quicksand', 'font-size': '5rem'}}>Pensieve</h1>
+        <h1 style={{'font-size': '5rem'}}>Pensieve</h1>
       </div>
           <div>
             <img src='\images\logo.png' alt="Logo" style={{ width: '450px', height: 'auto' }} />
           </div>
           <div style={{'margin-bottom': '10px'}}>
-            <h2>Login to access your journals!</h2>
+            <h2 style={{'font-size': '2.5rem'}}>Login to access your journals!</h2>
           </div>
           <div>
             <button onClick={handleLogin} disabled={loading}>
