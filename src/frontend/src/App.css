@@ -50,17 +50,19 @@
 body {
   font-family: 'Quicksand', sans-serif; /* Soft, rounded font */
   background: linear-gradient(135deg, #e0f7e9, #f0f5e9); /* Soft green gradient */
-  color: #4a4a4a; /* Soft dark gray for text */
+  color: #2f5543; /* Soft dark gray for text */
   line-height: 1.8; /* Increased line height for readability */
-  padding: 20px;
+  padding: 10px;
   min-height: 100vh;
+  margin:0px;
+  padding: 0px;
 }
 
 /* Container for the Journal */
 .journal-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
   background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
   border-radius: 25px; /* Rounded corners */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Soft shadow */
@@ -70,8 +72,14 @@ body {
 .container {
   display: grid;
   grid-template-columns: 40% 30% 30%;
-  grid-auto-rows: 1.6em;
-  grid-gap: 10px;
+  /*grid-auto-rows: 1.6em;*/
+  grid-gap: 5px;
+  justify-items: center;
+  margin: 20px;
+}
+
+.main-entry {
+  justify-content: center;
   justify-items: center;
 }
 
@@ -225,6 +233,7 @@ footer p {
   padding: 20px;
   font-family: 'Quicksand', sans-serif; /* Soft, rounded font */
   backdrop-filter: blur(10px); /* Frosted glass effect */
+  margin: 10px;
 }
 
 /* Calendar Container */
@@ -302,6 +311,10 @@ footer p {
   transform: scale(1.05); /* Slight grow effect */
 }
 
+.react-calendar__tile:focus {
+  background-color: #ca3dbc;
+}
+
 /* Current Day */
 .react-calendar__tile--now {
   background-color: #5a7d6a; /* Sage green for current day */
@@ -309,9 +322,10 @@ footer p {
   font-weight: 500; /* Medium font weight */
 }
 
-.react-calendar__tile--now:hover {
-  background-color: #4a6b57; /* Darker sage green on hover */
-}
+.react-calendar__tile--now:hover() {
+  background-color: #4a6b57; /* Darker sage green on hover b*/
+} 
+
 
 /* Selected Day */
 .react-calendar__tile--active {
@@ -320,9 +334,10 @@ footer p {
   font-weight: 500; /* Medium font weight */
 }
 
+
 .react-calendar__tile--active:hover {
   background-color: #3a5a47; /* Even darker sage green on hover */
-}
+} 
 
 /* Inactive Days (Days from Previous/Next Month) */
 .react-calendar__tile--neighboringMonth {

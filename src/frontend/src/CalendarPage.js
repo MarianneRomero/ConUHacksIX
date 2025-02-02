@@ -51,6 +51,11 @@ const CalendarPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [normalItems, setNormalItems] = useState([]);
     const [eventItems, setEventItems] = useState([]);
+    const options = { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
     const [mood_data, setMoodData] = useState([]);
 
 
@@ -94,46 +99,59 @@ const CalendarPage = () => {
     };
 
     return (
-        <journal-container style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', marginTop: '20px' }}>
+        <div
+            style={{
+                backgroundImage: "url(images/background.jpg)",
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                height: '100vh',
+                width: '100%',
+                margin: '0px',
+                padding: '0',
+            }}
+        >
             <div class="container">
                 {/* Main Entry */}
-                <div>
-                    {selectedDate && (
-                        <div>
-                            <h1>{selectedDate.toLocaleDateString()}</h1>
-                            <journal-entry>
-                                {normalItems.map(item => (
+                <div style={{ margin: '20px', width: '100%'}}>
+                    <div class="main-entry">
+                        <h1 style={{'margin-bottom': '10px'}}>{selectedDate.toLocaleDateString('en-US', options)}</h1>
+                        <div class="journal-entry" style={{ width: '100%', 'overflow-y': 'scroll', 'scrollbar-width': 'none' }}>
+                            {normalItems.length > 0 ? (
+                                normalItems.map(item => (
                                     <div>
                                         <h3>{item.prompt}</h3>
                                         <text>{item.response}</text>
                                     </div>
-                                ))}
-                            </journal-entry>
+                                ))
+                            ): (
+                                <div>
+                                    <img src='\images\zen-landscape.jpg' alt="Zen Background" style={{ width: '100%', height: 'auto' }} />
+                                </div>
+                            )}
                         </div>
-                    )}
+                    </div>
                 </div>
 
                 {/* Secondary Entry */}
-                <div>
-                    <journal-entry>
-                        {eventItems.map(item => (
+                <div style={{ width: '100%', margin: '20px', 'overflow-y': 'scroll', 'scrollbar-width': 'none' }}>
+                    {eventItems.map(item => (
+                        <div class="journal-entry">
                             <SecondaryEntry key={item.id} prompt={item.prompt} response={item.response}></SecondaryEntry> 
-                        ))}
-                    </journal-entry>
+                        </div>
+                    ))}
                 </div>
                 
                 
                 {/* Calendar + Secondary Entry */}
-                <div style={{ marginRight: '20px' }}>
+                <div style={{margin: '20px'}}>
                     <Calendar
                         value={date}
                         onChange={handleDateChange}
                     />
-                    <MoodTracker data={mood_data}/> 
-                    <SecondaryEntry> </SecondaryEntry>
+                    <MoodTracker data={mood_data}/>
                 </div>
             </div>
-        </journal-container>
+        </div>
     );
 };
 
