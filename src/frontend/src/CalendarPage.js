@@ -5,35 +5,6 @@ import SecondaryEntry from './SecondaryEntry'; // Import the new component
 import MoodTracker from './mood';
 
 
-const fake_data = [
-    {
-        name: "angry",
-        count: 1,
-        fill: "#8dd1e1" 
-      },
-    {
-      name: "sad",
-      count: 3,
-      fill: "#83a6ed"
-    },
-    {
-      name: "calm",
-      count: 6,
-      fill: "#82ca9d"
-    },
-    {
-      name: "anxious",
-      count: 4,
-      fill: "#a4de6c"
-    },
-    {
-        name: "happy",
-        count: 16,
-        fill: "#8884d8"
-    },
-  ];
-
-
 
 const CalendarPage = () => {
     // State to store the currently selected date
@@ -103,6 +74,7 @@ const CalendarPage = () => {
                 width: '100%',
                 margin: '0px',
                 padding: '0',
+                position: 'fixed',
             }}
         >
             <div class="container">
@@ -141,7 +113,7 @@ const CalendarPage = () => {
                 
                 
                 {/* Calendar + Secondary Entry */}
-                <div style={{margin: '30px', 'margin-bottom': '40px', 'justify-items': 'center'}}>
+                <div style={{margin: '30px', 'justify-items': 'center', width: '100%'}}>
                     <Calendar
                         value={date}
                         onChange={handleDateChange}

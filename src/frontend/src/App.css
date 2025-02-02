@@ -49,7 +49,6 @@
 /* Body Styling */
 body {
   font-family: 'Quicksand', sans-serif; /* Soft, rounded font */
-  background: linear-gradient(135deg, #e0f7e9, #f0f5e9); /* Soft green gradient */
   color: #2f5543; /* Soft dark gray for text */
   line-height: 1.8; /* Increased line height for readability */
   padding: 10px;
@@ -176,22 +175,6 @@ textarea {
   min-height: 150px;
 }
 
-/* Footer Styling */
-footer {
-  text-align: center;
-  margin-top: 30px;
-  padding: 20px;
-  background-color: rgba(90, 125, 106, 0.9); /* Semi-transparent sage green */
-  color: #ffffff; /* White text */
-  border-radius: 20px; /* Rounded corners */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
-}
-
-footer p {
-  margin: 0;
-  font-size: 1rem; /* Larger font size */
-  font-weight: 300; /* Lighter font weight */
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -345,6 +328,13 @@ footer p {
 .react-calendar__tile--neighboringMonth:hover {
   background-color: rgba(255, 255, 255, 0.5); /* No hover effect for inactive days */
   transform: none;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;  /* To prevent scrolling */
+  height: 100%;
 }
 
 /* Responsive Design */
