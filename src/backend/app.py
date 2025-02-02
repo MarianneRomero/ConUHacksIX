@@ -27,8 +27,8 @@ API_SERVICE_NAME = 'calendar'
 API_VERSION = 'v3'
 REDIRECT_URI = 'https://localhost:5000/oauth2callback' 
 
-LAST_MESSAGE_SENT = ""
-LAST_MESSAGE_SENT_TYPE = "normal"
+last_message_sent = ""
+last_message_sent_type = "normal"
 
 @app.route('/')
 def index():
@@ -40,7 +40,7 @@ def index():
 
 @app.route('/authorize')
 def authorize():
-    # If credentials already exist, no need to log in again
+    #If credentials already exist, no need to log in again
     # if 'credentials' in session:
     #     return redirect(url_for('get_calendar_events'))
     
@@ -67,6 +67,40 @@ def oauth2callback():
     
     credentials = flow.credentials
     session['credentials'] = credentials_to_dict(credentials)  # Save as dictionary
+    
+    if 'credentials' not in session:
+        return redirect(url_for('authorize'))
+    
+    # Convert expiry back to datetime if it exists
+    creds_data = session['credentials']
+    if creds_data.get('expiry'):
+        creds_data['expiry'] = datetime.fromisoformat(creds_data['expiry'])
+    
+    # Reconstruct credentials from session
+    credentials = Credentials(**creds_data)
+    
+    
+    # Build the Calendar API service
+    service = build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
+
+    # Define the time range for today
+    tz = pytz.timezone('UTC') 
+    now = datetime.now(tz)
+    start_of_day = datetime(year=now.year, month=now.month, day=now.day, tzinfo=tz)
+    end_of_day = start_of_day + timedelta(days=1)
+    # Convert to ISO format
+    time_min = start_of_day.isoformat()
+    time_max = end_of_day.isoformat()
+
+    # Fetch today's events
+    events_result = service.events().list(
+        calendarId='primary', timeMin=time_min, timeMax=time_max,
+        maxResults=10, singleEvents=True, orderBy='startTime',
+        fields='items(summary,start,end,location,status)'
+    ).execute()
+    
+    events = events_result.get('items', [])
+    schedule_messages(events)
     return redirect('http://localhost:3000/')
 
 
@@ -109,7 +143,7 @@ def get_calendar_events():
     
     events = events_result.get('items', [])
     schedule_messages(events)
-    return jsonify(events)
+    return redirect('http://localhost:3000/')
 
 @app.route('/getNormalEntries', methods=['GET'])
 def getNormalEntriesWithDate():
@@ -153,7 +187,7 @@ def sms_reply():
     sender_number = request.form['From']
     print(f"Received message from {sender_number}: {incoming_message}")
 
-    save_entry("marianne.romero30@gmail.com", LAST_MESSAGE_SENT, incoming_message, LAST_MESSAGE_SENT_TYPE)
+    save_entry("marianne.romero30@gmail.com", last_message_sent, incoming_message, last_message_sent_type)
 
     # add some processing to message
     response_msg = response_ai()
@@ -163,7 +197,9 @@ def sms_reply():
     return str(response)
 
 def send_SMS(message:str, type:str):
-    LAST_MESSAGE_SENT = message
+    global last_message_sent, last_message_sent_type
+    last_message_sent = message
+    last_message_sent_type = type
     send_message("+14385038053", message)
 
 def schedule_basic_messages():
@@ -181,7 +217,7 @@ def schedule_basic_messages():
     scheduler.add_job(send_SMS, trigger, args=[message_noon, "normal"])
 
     message_evening = basic_prompt("Evening")
-    trigger_time_evening = datetime(year=now.year, month=now.month, day=now.day, hour=18, minute=41)
+    trigger_time_evening = datetime(year=now.year, month=now.month, day=now.day, hour=8, minute=59)
     trigger = DateTrigger(run_date=trigger_time_evening)
     scheduler.add_job(send_SMS, trigger, args=[message_evening, "normal"])
 
