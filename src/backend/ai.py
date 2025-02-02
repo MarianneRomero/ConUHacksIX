@@ -18,7 +18,7 @@ def call_gemini(user_prompt):
     return response.text
 
 
-def response():
+def response_ai():
     return call_gemini("pretend you are my friend and confirm that you have received my text and saved it. Dont ask any questions")
 
 def basic_prompt(time):
@@ -31,7 +31,15 @@ def mood_prompt():
     return call_gemini("Ask me a short question on how my mood was today")
 
 def get_mood_prompt(mood):
-    return call_gemini(f"Here is what Im feeling: {mood}. Out of the following emotions (happy, sad, angry, anxious, calm) which one am I feeling the most? Answer in 1 word")
+    try:
+        response = call_gemini(f"Here is what I'm feeling: {mood}. Out of the following emotions (happy, sad, angry, anxious, calm) which one am I feeling the most? Answer in 1 word")
+        if response.strip():  # Check if response is not empty or just whitespace
+            return response.strip()
+        else:
+            raise ValueError("Received an empty or invalid response from Gemini.")
+    except Exception as e:
+        print(f"Error calling Gemini API: {e}")
+        return "happy"
 
 
 def analyze_mood_data(user_email):
@@ -44,11 +52,20 @@ def analyze_mood_data(user_email):
     }
 
     mood_entries = get_mood_entries_last_30days(user_email)
+    if not mood_entries:
+        print(f"No mood entries found for {user_email}.")
+        return []
+
     mood_counts = Counter()
 
     for entry in mood_entries:
-        mood = get_mood_prompt(entry["response"])  # Perform sentiment analysis
-        mood_counts[mood] += 1
+        mood = get_mood_prompt(entry["response"]).strip('\n').lower()
+        if mood:  # Ensure mood is not None or empty
+            mood_counts[mood] += 1
+        else:
+            print(f"Error processing mood entry for {entry}.")
 
     return [{"name": mood, "count": count, "fill": mood_colors[mood]} for mood, count in mood_counts.items()]
 
+
+MOOD_DATA=analyze_mood_data('marianne.romero30@gmail.com')

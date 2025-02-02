@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from datetime import datetime
+from datetime import datetime, timedelta
 
 load_dotenv()
 
@@ -65,7 +65,7 @@ def get_event_entries_for_date(user_email, date):
 
 def get_mood_entries_last_30days(user_email):
     today = datetime.now()
-    thirty_days_ago = datetime(today.year, today.month, today.day - 30)
+    thirty_days_ago = thirty_days_ago = today - timedelta(days=30)
     entries = list(entries_collection.find({"user_id": user_email, 
                                             "date": {"$gte": thirty_days_ago.strftime('%Y-%m-%d')}, 
                                             "type": "mood"

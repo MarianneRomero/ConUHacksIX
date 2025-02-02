@@ -5,16 +5,13 @@ import { RadialBarChart, RadialBar, Legend, Tooltip } from 'recharts';
 function MoodTracker({data}) {  
     
     return (
-        <div>
-            <div>
-                <h1>Mood Tracker</h1>
-            </div>
-            <div>
+        <div style={{'justify-items': 'center'}}>
+            <h1>Mood Tracker</h1>
                 <RadialBarChart
-                    width={730}
-                    height={350}
-                    innerRadius="30%"
-                    outerRadius="80%"
+                    width={550}
+                    height={600}
+                    innerRadius="50%"
+                    outerRadius="130%"
                     data={data}
                     startAngle={180}
                     endAngle={0}
@@ -30,12 +27,11 @@ function MoodTracker({data}) {
                     iconSize={15}
                     width={200}
                     height={200}
-                    layout="vertical"
-                    verticalAlign="left"
-                    align="right"
+                    layout="horizontal"
+                    align="center"
                     wrapperStyle={{
-                        top: '39.5%',
-                        transform: 'translateY(-50%)',}}/>
+                        top: '60%',
+                        transform: 'translateY(-10%)',}}/>
                     <Tooltip
                         content={({ payload }) => {
                             if (!payload || payload.length === 0) return null;
@@ -51,7 +47,6 @@ function MoodTracker({data}) {
                         contentStyle={{ backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: '5px' }}
                     />
                 </RadialBarChart>
-            </div>
         </div>
     );
   };

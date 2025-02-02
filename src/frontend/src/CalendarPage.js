@@ -33,16 +33,6 @@ const fake_data = [
     },
   ];
 
-  const getColorForMood = (mood) => {
-    const colorMap = {
-      happy: '#8884d8',
-      sad: '#83a6ed',
-      angry: '#8dd1e1',
-      calm: '#82ca9d',
-      anxious: '#a4de6c',
-    };
-    return colorMap[mood.toLowerCase()] || '#000000'; // Default to black if mood not found
-  };
 
 
 const CalendarPage = () => {
@@ -77,19 +67,24 @@ const CalendarPage = () => {
 
 
     useEffect(() => {
-        const formattedDate = selectedDate.toISOString().split('T')[0]; // Format date to YYYY-MM-DD if needed
-        fetch(`https://localhost:5000/getMoodEntries?date=${formattedDate}`)
+        fetch('https://localhost:5000/getMoodEntries')
             .then(response => response.json())
             .then((data) => {
-                const formattedData = data.map((item) => ({
-                    name: item.mood,
-                    count: item.count,
-                    fill: getColorForMood(item.mood),
+                // Transform data into the desired format
+                const transformedData = data.map(entry => ({
+                    name: entry.name,  // Assuming `entry.mood` has the mood name (e.g., 'happy', 'sad')
+                    count: entry.count, // Assuming `entry.count` has the count of moods
+                    fill: entry.fill    // Assuming `entry.fill` has the corresponding color
                 }));
-                setMoodData(formattedData); // Update state
+                setMoodData(transformedData);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, [selectedDate]); 
+    }, []);
+    
+    
+        useEffect(() => {
+            console.log(mood_data);  // This will log whenever mood_data is updated
+        }, [mood_data]);
 
 
 
