@@ -75,7 +75,7 @@ body {
   /*grid-auto-rows: 1.6em;*/
   grid-gap: 5px;
   justify-items: center;
-  margin: 20px;
+  margin: 30px;
 }
 
 .main-entry {
@@ -309,10 +309,6 @@ footer p {
 .react-calendar__tile:hover {
   background-color: rgba(224, 247, 233, 0.5); /* Soft green on hover */
   transform: scale(1.05); /* Slight grow effect */
-}
-
-.react-calendar__tile:focus {
-  background-color: #ca3dbc;
 }
 
 /* Current Day */

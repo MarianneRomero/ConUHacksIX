@@ -6,7 +6,6 @@ function MoodTracker({data}) {
     
     return (
         <div style={{'justify-items': 'center'}}>
-            <h1>Mood Tracker</h1>
                 <RadialBarChart
                     width={550}
                     height={600}

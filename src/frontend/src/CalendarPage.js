@@ -107,7 +107,7 @@ const CalendarPage = () => {
         >
             <div class="container">
                 {/* Main Entry */}
-                <div style={{ margin: '20px', width: '100%'}}>
+                <div style={{ margin: '30px', width: '100%'}}>
                     <div class="main-entry">
                         <h1 style={{'margin-bottom': '10px'}}>{selectedDate.toLocaleDateString('en-US', options)}</h1>
                         <div class="journal-entry" style={{ width: '100%', 'overflow-y': 'scroll', 'scrollbar-width': 'none' }}>
@@ -120,7 +120,7 @@ const CalendarPage = () => {
                                 ))
                             ): (
                                 <div>
-                                    <img src='\images\zen-landscape.jpg' alt="Zen Background" style={{ width: '100%', height: 'auto' }} />
+                                    <img src='\images\landscape1.jpg' alt="Zen Background" style={{ width: '100%', height: 'auto', 'border-radius': '15px' }} />
                                 </div>
                             )}
                         </div>
@@ -128,7 +128,10 @@ const CalendarPage = () => {
                 </div>
 
                 {/* Secondary Entry */}
-                <div style={{ width: '100%', margin: '20px', 'overflow-y': 'scroll', 'scrollbar-width': 'none' }}>
+                <div style={{ width: '100%', margin: '30px', 'overflow-y': 'scroll', 'scrollbar-width': 'none' }}>
+                    <div class="journal-entry">
+                        <img src='\images\flowers.jpg' alt="Landscape" style={{ width: '100%', height: 'auto', 'border-radius': '20px' }} />
+                    </div>
                     {eventItems.map(item => (
                         <div class="journal-entry">
                             <SecondaryEntry key={item.id} prompt={item.prompt} response={item.response}></SecondaryEntry> 
@@ -138,11 +141,12 @@ const CalendarPage = () => {
                 
                 
                 {/* Calendar + Secondary Entry */}
-                <div style={{margin: '20px'}}>
+                <div style={{margin: '30px', 'margin-bottom': '40px', 'justify-items': 'center'}}>
                     <Calendar
                         value={date}
                         onChange={handleDateChange}
                     />
+                    <h1 style={{"padding-top":'30px', "padding-bottom":'0px'}}>Mood Tracker</h1>
                     <MoodTracker data={mood_data}/>
                 </div>
             </div>
