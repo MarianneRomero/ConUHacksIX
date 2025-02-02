@@ -3,11 +3,11 @@ import { Card } from 'react-bootstrap';
 
 const SecondaryEntry = ({ prompt, response }) => {
     return (
-        <Card style={{ width: '18rem', margin: '10px' }}>
+        <Card>
             <Card.Img variant="top" src="holder.js/100px180" />
             <Card.Body>
-                <Card.Title>{prompt}</Card.Title>
-                <Card.Text>{response}</Card.Text>
+                <h3>{prompt}</h3>
+                <text>{response}</text>
             </Card.Body>
         </Card>
     );

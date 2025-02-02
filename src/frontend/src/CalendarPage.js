@@ -10,6 +10,11 @@ const CalendarPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [normalItems, setNormalItems] = useState([]);
     const [eventItems, setEventItems] = useState([]);
+    const options = { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
 
 
     useEffect(() => {
@@ -34,45 +39,44 @@ const CalendarPage = () => {
     };
 
     return (
-        <journal-container style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', marginTop: '20px' }}>
+        <div>
             <div class="container">
                 {/* Main Entry */}
-                <div>
+                <div style={{margin: '20px'}}>
                     {selectedDate && (
-                        <div>
-                            <h1>{selectedDate.toLocaleDateString()}</h1>
-                            <journal-entry>
+                        <div class="main-entry">
+                            <h1>{selectedDate.toLocaleDateString('en-US', options)}</h1>
+                            <div class="journal-entry">
                                 {normalItems.map(item => (
                                     <div>
                                         <h3>{item.prompt}</h3>
                                         <text>{item.response}</text>
                                     </div>
                                 ))}
-                            </journal-entry>
+                            </div>
                         </div>
                     )}
                 </div>
 
                 {/* Secondary Entry */}
-                <div>
-                    <journal-entry>
-                        {eventItems.map(item => (
+                <div style={{ width: '100%', margin: '20px' }}>
+                    {eventItems.map(item => (
+                        <div class="journal-entry">
                             <SecondaryEntry key={item.id} prompt={item.prompt} response={item.response}></SecondaryEntry> 
-                        ))}
-                    </journal-entry>
+                        </div>
+                    ))}
                 </div>
                 
                 
                 {/* Calendar + Secondary Entry */}
-                <div style={{ marginRight: '20px' }}>
+                <div style={{margin: '20px'}}>
                     <Calendar
                         value={date}
                         onChange={handleDateChange}
                     />
-                    <SecondaryEntry> </SecondaryEntry>
                 </div>
             </div>
-        </journal-container>
+        </div>
     );
 };
 
