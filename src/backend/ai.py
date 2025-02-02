@@ -1,7 +1,7 @@
 import google.generativeai as genai
 from datetime import datetime
 from collections import Counter
-from db import get_mood_entries_last_30_days
+from db import get_mood_entries_last_30days
 
 prompts = {
     "Morning": "I just woke up, pretend you are my friend and ask me a short question about how my morning is going, what are my goals, etc. Dont add emojis",
@@ -43,7 +43,7 @@ def analyze_mood_data(user_email):
         "calm": "#82ca9d"
     }
 
-    mood_entries = get_mood_entries_last_30_days(user_email)
+    mood_entries = get_mood_entries_last_30days(user_email)
     mood_counts = Counter()
 
     for entry in mood_entries:
