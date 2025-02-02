@@ -4,7 +4,10 @@ from dotenv import load_dotenv
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from bson.objectid import ObjectId
+import google.generativeai as genai
 from datetime import datetime
+from ai import call_gemini, get_time_of_day, basic_prompt, event_prompt 
+
 load_dotenv()
 
 uri = "mongodb+srv://glzvl97:Glzvl97Lock133557@cluster0.tovyg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -23,28 +26,32 @@ except Exception as e:
     print(f"❌ MongoDB connection error: {e}")
 
 
-def save_entry(user_id, prompt, response):
+def save_entry(user_email, prompt, response, type="normal"):
     entry_data = {
-        "user_id": user_id,
-        "prompt_id": prompt,
+        "user_id": user_email,
+        "prompt": prompt,
         "response": response,
-        "created_at": datetime.now()
+        "date": datetime.now().strftime('%Y-%m-%d'),
+        "time": datetime.now().strftime('%H'),
+        "type": type
     }
     entries_collection.insert_one(entry_data)
     return "Entry saved successfully!"
 
 if __name__ == "__main__":
     # Example usage
-    user_id = "65bf4c1234abcd5678ef9012"  
-    prompt = "65bf4c9876efabcd12345678"  
+    user_email = "glzvl97@gmail.com"  
+    prompt = "How was your day?"  
     response = "Today was a tough day, but I learned a lot."
 
-    print(save_entry(user_id, prompt, response))
+    print(save_entry(user_email, prompt, response,))
 
-def get_user_entries(user_id):
-    entries = list(entries_collection.find({"user_id": ObjectId(user_id)}))
+#Add sorting to user time
+# Filter by user_email, date
+def get_user_entries(user_email):
+    entries = list(entries_collection.find({"user_id": user_email}).sort("date",-1))
     return entries
 
 if __name__ == "__main__":
-    user_id = "65bf4c1234abcd5678ef9012"
-    print(get_user_entries(user_id))
+    user_email = "glzvl97@gmail.com"
+    print(get_user_entries(user_email))
