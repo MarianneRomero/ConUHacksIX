@@ -113,12 +113,12 @@ const CalendarPage = () => {
                 
                 
                 {/* Calendar + Secondary Entry */}
-                <div style={{margin: '30px', 'justify-items': 'center', width: '100%'}}>
+                <div style={{margin: '20px', 'justify-items': 'center', width: '100%'}}>
                     <Calendar
                         value={date}
                         onChange={handleDateChange}
                     />
-                    <h1 style={{"padding-top":'30px', "padding-bottom":'0px', 'font-size': '2.5rem'}}>Mood Tracker</h1>
+                    <h1 style={{"padding-top":'20px', "padding-bottom":'0px', 'font-size': '2.5rem'}}>Mood Tracker</h1>
                     <MoodTracker data={mood_data}/>
                 </div>
             </div>

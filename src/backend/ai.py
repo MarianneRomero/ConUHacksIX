@@ -44,7 +44,7 @@ def get_mood_prompt(mood):
 
 def analyze_mood_data(user_email):
     mood_colors = {
-        "happy": "#f1bfc0",
+        "happy": "#bf9ed8",
         "sad": "#c47457",
         "angry": "#5a7d6a",
         "anxious": "#2e2c39",
