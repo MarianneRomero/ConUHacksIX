@@ -21,13 +21,18 @@ except Exception as e:
     print(f"❌ MongoDB connection error: {e}")
 
 
-def save_entry(user_email, prompt, response, type="normal"):
+def save_entry(user_email, prompt, response, type="normal", date=None, time=None):
+    if date is None:
+        date = datetime.now().strftime('%Y-%m-%d')
+    if time is None:
+        time = datetime.now().strftime('%H:%M')  
+
     entry_data = {
         "user_id": user_email,
         "prompt": prompt,
         "response": response,
         "date": datetime.now().strftime('%Y-%m-%d'),
-        "time": datetime.now().strftime('%H'),
+        "time": datetime.now().strftime('%H:%M'),
         "type": type
     }
     entries_collection.insert_one(entry_data)
