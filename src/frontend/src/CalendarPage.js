@@ -42,20 +42,24 @@ const CalendarPage = () => {
         <div>
             <div class="container">
                 {/* Main Entry */}
-                <div style={{margin: '20px'}}>
-                    {selectedDate && (
-                        <div class="main-entry">
-                            <h1>{selectedDate.toLocaleDateString('en-US', options)}</h1>
-                            <div class="journal-entry">
-                                {normalItems.map(item => (
+                <div style={{ margin: '20px', width: '100%'}}>
+                    <div class="main-entry">
+                        <h1 style={{'margin-bottom': '10px'}}>{selectedDate.toLocaleDateString('en-US', options)}</h1>
+                        <div class="journal-entry" style={{ width: '100%'}}>
+                            {normalItems.length > 0 ? (
+                                normalItems.map(item => (
                                     <div>
                                         <h3>{item.prompt}</h3>
                                         <text>{item.response}</text>
                                     </div>
-                                ))}
-                            </div>
+                                ))
+                            ): (
+                                <div>
+                                    <img src='\images\zen-landscape.jpg' alt="Zen Background" style={{ width: '100%', height: 'auto' }} />
+                                </div>
+                            )}
                         </div>
-                    )}
+                    </div>
                 </div>
 
                 {/* Secondary Entry */}
