@@ -309,6 +309,10 @@ footer p {
   transform: scale(1.05); /* Slight grow effect */
 }
 
+.react-calendar__tile:focus {
+  background-color: #ca3dbc;
+}
+
 /* Current Day */
 .react-calendar__tile--now {
   background-color: #5a7d6a; /* Sage green for current day */
@@ -316,9 +320,10 @@ footer p {
   font-weight: 500; /* Medium font weight */
 }
 
-.react-calendar__tile--now:hover {
-  background-color: #4a6b57; /* Darker sage green on hover */
-}
+.react-calendar__tile--now:hover() {
+  background-color: #4a6b57; /* Darker sage green on hover b*/
+} 
+
 
 /* Selected Day */
 .react-calendar__tile--active {
@@ -327,9 +332,10 @@ footer p {
   font-weight: 500; /* Medium font weight */
 }
 
+
 .react-calendar__tile--active:hover {
   background-color: #3a5a47; /* Even darker sage green on hover */
-}
+} 
 
 /* Inactive Days (Days from Previous/Next Month) */
 .react-calendar__tile--neighboringMonth {

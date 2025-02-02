@@ -45,7 +45,7 @@ const CalendarPage = () => {
                 <div style={{ margin: '20px', width: '100%'}}>
                     <div class="main-entry">
                         <h1 style={{'margin-bottom': '10px'}}>{selectedDate.toLocaleDateString('en-US', options)}</h1>
-                        <div class="journal-entry" style={{ width: '100%'}}>
+                        <div class="journal-entry" style={{ width: '100%', 'overflow-y': 'scroll', 'scrollbar-width': 'none' }}>
                             {normalItems.length > 0 ? (
                                 normalItems.map(item => (
                                     <div>
@@ -63,7 +63,7 @@ const CalendarPage = () => {
                 </div>
 
                 {/* Secondary Entry */}
-                <div style={{ width: '100%', margin: '20px' }}>
+                <div style={{ width: '100%', margin: '20px', 'overflow-y': 'scroll', 'scrollbar-width': 'none' }}>
                     {eventItems.map(item => (
                         <div class="journal-entry">
                             <SecondaryEntry key={item.id} prompt={item.prompt} response={item.response}></SecondaryEntry> 
