@@ -43,22 +43,19 @@ def get_user_entries(user_email):
 def get_user_entries_for_date(user_email, date):
     entries = list(entries_collection.find({"user_id": user_email, "date": date}).sort("date",-1))
     for entry in entries:
-        entry['_id'] = str(entry['_id'])  # Convert ObjectId to string
-        print(entry)
+        entry['_id'] = str(entry['_id'])  
     return entries
 
 def get_normal_entries_for_date(user_email, date):
     entries = list(entries_collection.find({"user_id": user_email, "date": date, "type": "normal"}).sort("date",-1))
     for entry in entries:
-        entry['_id'] = str(entry['_id'])  # Convert ObjectId to string
-        print(entry)
+        entry['_id'] = str(entry['_id']) 
     return entries
 
 def get_event_entries_for_date(user_email, date):
     entries = list(entries_collection.find({"user_id": user_email, "date": date, "type": "event"}).sort("date",-1))
     for entry in entries:
-        entry['_id'] = str(entry['_id'])  # Convert ObjectId to string
-        print(entry)
+        entry['_id'] = str(entry['_id'])  
     return entries
 
 if __name__ == "__main__":
