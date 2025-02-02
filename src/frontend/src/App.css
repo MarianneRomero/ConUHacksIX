@@ -50,10 +50,12 @@
 body {
   font-family: 'Quicksand', sans-serif; /* Soft, rounded font */
   background: linear-gradient(135deg, #e0f7e9, #f0f5e9); /* Soft green gradient */
-  color: #4a4a4a; /* Soft dark gray for text */
+  color: #2f5543; /* Soft dark gray for text */
   line-height: 1.8; /* Increased line height for readability */
   padding: 10px;
   min-height: 100vh;
+  margin:0px;
+  padding: 0px;
 }
 
 /* Container for the Journal */

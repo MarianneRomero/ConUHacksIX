@@ -39,7 +39,17 @@ const CalendarPage = () => {
     };
 
     return (
-        <div>
+        <div
+            style={{
+                backgroundImage: "url(images/background.jpg)",
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                height: '100vh',
+                width: '100%',
+                margin: '0px',
+                padding: '0',
+            }}
+        >
             <div class="container">
                 {/* Main Entry */}
                 <div style={{ margin: '20px', width: '100%'}}>
